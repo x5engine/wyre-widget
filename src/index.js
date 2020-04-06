@@ -1,30 +1,32 @@
-import * as React from "react"
+import React, {useState} from "react"
 import { useScript } from "./useScript"
 
-export function Wyre({open, onReady, onClose, onComplete, config, children}) {
+export default function Wyre({open, onReady, onClose, onComplete, config, children}) {
     const [loaded, error] = useScript("https://verify.sendwyre.com/js/widget-loader.js")
     const [widget, setWidget] = useState(null)
 
     React.useEffect(() => {
         if (loaded) verifyWyre()
-    }, [loaded, error])
+        if(open && widget) widget.open();
+    }, [loaded, error, open])
 
     const verifyWyre = () => {
+      if(widget) return false
       const cwidget = new window.Wyre.Widget(config)
 
-      this.widget.on('ready', () => {
+      cwidget.on('ready', () => {
         if (onReady) {
           onReady()
         }
       })
 
-      this.widget.on('close', event => {
+      cwidget.on('close', event => {
         if (onClose) {
           onClose(event)
         }
       })
 
-      this.widget.on('complete', event => {
+      cwidget.on('complete', event => {
         if (onComplete) {
           onComplete(event)
         }
@@ -34,7 +36,7 @@ export function Wyre({open, onReady, onClose, onComplete, config, children}) {
 
     return (
         <div class={"wyre-widget-react"}>
-            {loaded && !error ? <div /> : <b>Something went wrong!</b>}
+            {loaded && !error ? <div>{children}</div> : <b>Something went wrong!</b>}
         </div>
     )
 }

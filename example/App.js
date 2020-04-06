@@ -1,53 +1,45 @@
-import React from 'react'
+import React, { useState } from "react";
 import Wyre from '../index'
 
-class App extends React.Component {
-  constructor (props) {
-    super(props)
+export default function App() {
+  const [open, setOpen] = useState(false);
 
-    this.state = {
-      open: false
-    }
+
+  const genSecretKey () => {
+    return Array.prototype.map.call(
+      window.crypto.getRandomValues(new Uint8Array(25)),
+      x => ('00' + x.toString(16)).slice(-2)).join('')
   }
 
-  render () {
-    return (
-      <Wyre
-        config={{
-          env: 'test',
-          accountId: 'AC-BAAA2222',
-          auth: {
-            type: 'secretKey',
-            secretKey: genSecretKey()
-          },
-          operation: {
-            type: 'debitcard',
-            destCurrency: 'ETH',
-            destAmount: 0.01,
-            dest: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1'
-          },
-          style: {
-            primaryColor: '#0055ff'
-          }
-        }}
-        onReady={() => console.log('ready')}
-        onClose={event => console.log('close', event)}
-        onComplete={event => console.log('complete', event)}
-        open={this.state.open}>
-
-        <button onClick={() => this.setState({ open: true })}>
-          Buy ETH
-        </button>
-
-      </Wyre>
-    )
-  }
+  return (
+    <div className="App">
+      <h1>Hello Crypto :)</h1>
+      <h2>Let's Buy some Crypto to HODL ;)</h2>.
+        <Wyre
+          config={{
+            env: 'test',
+            accountId: 'AC_BAAA2222',// put your account number here
+            auth: {
+              type: 'secretKey',
+              secretKey:  genSecretKey()// make an API key, put the secret here :)
+            },
+            operation: {
+              type: 'debitcard',
+              destCurrency: 'ETH',//change type: can be ETH, DAI, BTC
+              destAmount: 0.01,
+              dest: "0xd277a99c0d08ded3bdb253024bff81e41496465c"// if payment goes through this account will receive the crypto balance
+            },
+            style: {
+              primaryColor: '#0055ff'
+            }
+          }}
+          onReady={() => console.log("ready")}
+          onClose={event => console.log("close", event)}
+          onComplete={event => console.log("complete", event)}
+          open={open}
+        >
+          <button onClick={() => setOpen(true)}>Buy ETH</button>
+        </Wyre>
+    </div>
+  );
 }
-
-function genSecretKey () {
-  return Array.prototype.map.call(
-    window.crypto.getRandomValues(new Uint8Array(25)),
-    x => ('00' + x.toString(16)).slice(-2)).join('')
-}
-
-export default App

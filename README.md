@@ -17,10 +17,14 @@ New Version using Hooks and no side effects.
 [![dependencies Status](https://david-dm.org/x5engine/wyre-widget/status.svg)](https://david-dm.org/x5engine/wyre-widget)
 [![NPM version](https://badge.fury.io/js/wyre-widget.svg)](http://badge.fury.io/js/wyre-widget)
 
+## Demo first?
+
+Demo link here
+
 ## Install
 
 ```bash
-npm install wyre-widget
+npm i -S wyre-widget
 ```
 
 ## Getting started
