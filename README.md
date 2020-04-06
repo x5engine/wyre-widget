@@ -19,7 +19,7 @@ New Version using Hooks and no side effects.
 
 ## Demo first?
 
-Demo link here
+[Live Demo](https://codesandbox.io/s/wyre-widget-demo-p2epv)
 
 ## Install
 

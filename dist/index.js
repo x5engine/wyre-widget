@@ -16,25 +16,14 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.Wyre = Wyre;
+    exports.default = Wyre;
 
-    var React = _interopRequireWildcard(_react);
+    var _react2 = _interopRequireDefault(_react);
 
-    function _interopRequireWildcard(obj) {
-        if (obj && obj.__esModule) {
-            return obj;
-        } else {
-            var newObj = {};
-
-            if (obj != null) {
-                for (var key in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-                }
-            }
-
-            newObj.default = obj;
-            return newObj;
-        }
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
     }
 
     var _slicedToArray = function () {
@@ -76,8 +65,6 @@
     }();
 
     function Wyre(_ref) {
-        var _this = this;
-
         var open = _ref.open,
             onReady = _ref.onReady,
             onClose = _ref.onClose,
@@ -90,31 +77,33 @@
             loaded = _useScript2[0],
             error = _useScript2[1];
 
-        var _useState = useState(null),
+        var _useState = (0, _react.useState)(null),
             _useState2 = _slicedToArray(_useState, 2),
             widget = _useState2[0],
             setWidget = _useState2[1];
 
-        React.useEffect(function () {
+        _react2.default.useEffect(function () {
             if (loaded) verifyWyre();
-        }, [loaded, error]);
+            if (open && widget) widget.open();
+        }, [loaded, error, open]);
 
         var verifyWyre = function verifyWyre() {
+            if (widget) return false;
             var cwidget = new window.Wyre.Widget(config);
 
-            _this.widget.on('ready', function () {
+            cwidget.on('ready', function () {
                 if (onReady) {
                     onReady();
                 }
             });
 
-            _this.widget.on('close', function (event) {
+            cwidget.on('close', function (event) {
                 if (onClose) {
                     onClose(event);
                 }
             });
 
-            _this.widget.on('complete', function (event) {
+            cwidget.on('complete', function (event) {
                 if (onComplete) {
                     onComplete(event);
                 }
@@ -122,10 +111,14 @@
             setWidget(cwidget);
         };
 
-        return React.createElement(
+        return _react2.default.createElement(
             "div",
             { "class": "wyre-widget-react" },
-            loaded && !error ? React.createElement("div", null) : React.createElement(
+            loaded && !error ? _react2.default.createElement(
+                "div",
+                null,
+                children
+            ) : _react2.default.createElement(
                 "b",
                 null,
                 "Something went wrong!"

@@ -5,7 +5,7 @@ export default function App() {
   const [open, setOpen] = useState(false);
 
 
-  const genSecretKey () => {
+  const genSecretKey = () => {
     return Array.prototype.map.call(
       window.crypto.getRandomValues(new Uint8Array(25)),
       x => ('00' + x.toString(16)).slice(-2)).join('')

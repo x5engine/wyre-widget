@@ -19,25 +19,14 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.Wyre = Wyre;
+    exports.default = Wyre;
 
-    var React = _interopRequireWildcard(_react);
+    var _react2 = _interopRequireDefault(_react);
 
-    function _interopRequireWildcard(obj) {
-        if (obj && obj.__esModule) {
-            return obj;
-        } else {
-            var newObj = {};
-
-            if (obj != null) {
-                for (var key in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-                }
-            }
-
-            newObj.default = obj;
-            return newObj;
-        }
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
     }
 
     var _slicedToArray = function () {
@@ -79,8 +68,6 @@
     }();
 
     function Wyre(_ref) {
-        var _this = this;
-
         var open = _ref.open,
             onReady = _ref.onReady,
             onClose = _ref.onClose,
@@ -93,31 +80,33 @@
             loaded = _useScript2[0],
             error = _useScript2[1];
 
-        var _useState = useState(null),
+        var _useState = (0, _react.useState)(null),
             _useState2 = _slicedToArray(_useState, 2),
             widget = _useState2[0],
             setWidget = _useState2[1];
 
-        React.useEffect(function () {
+        _react2.default.useEffect(function () {
             if (loaded) verifyWyre();
-        }, [loaded, error]);
+            if (open && widget) widget.open();
+        }, [loaded, error, open]);
 
         var verifyWyre = function verifyWyre() {
+            if (widget) return false;
             var cwidget = new window.Wyre.Widget(config);
 
-            _this.widget.on('ready', function () {
+            cwidget.on('ready', function () {
                 if (onReady) {
                     onReady();
                 }
             });
 
-            _this.widget.on('close', function (event) {
+            cwidget.on('close', function (event) {
                 if (onClose) {
                     onClose(event);
                 }
             });
 
-            _this.widget.on('complete', function (event) {
+            cwidget.on('complete', function (event) {
                 if (onComplete) {
                     onComplete(event);
                 }
@@ -125,7 +114,7 @@
             setWidget(cwidget);
         };
 
-        return React.createElement("div", { "class": "wyre-widget-react" }, loaded && !error ? React.createElement("div", null) : React.createElement("b", null, "Something went wrong!"));
+        return _react2.default.createElement("div", { "class": "wyre-widget-react" }, loaded && !error ? _react2.default.createElement("div", null, children) : _react2.default.createElement("b", null, "Something went wrong!"));
     }
 });
 
@@ -254,7 +243,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+exports.default = App;
 
 var _react = require('react');
 
@@ -266,82 +257,73 @@ var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function App() {
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      open = _useState2[0],
+      setOpen = _useState2[1];
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+  var genSecretKey = function genSecretKey() {
+    return Array.prototype.map.call(window.crypto.getRandomValues(new Uint8Array(25)), function (x) {
+      return ('00' + x.toString(16)).slice(-2);
+    }).join('');
+  };
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var App = function (_React$Component) {
-  _inherits(App, _React$Component);
-
-  function App(props) {
-    _classCallCheck(this, App);
-
-    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this.state = {
-      open: false
-    };
-    return _this;
-  }
-
-  _createClass(App, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        _index2.default,
-        {
-          config: {
-            env: 'test',
-            accountId: 'AC-BAAA2222',
-            auth: {
-              type: 'secretKey',
-              secretKey: genSecretKey()
-            },
-            operation: {
-              type: 'debitcard',
-              destCurrency: 'ETH',
-              destAmount: 0.01,
-              dest: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1'
-            },
-            style: {
-              primaryColor: '#0055ff'
-            }
+  return _react2.default.createElement(
+    'div',
+    { className: 'App' },
+    _react2.default.createElement(
+      'h1',
+      null,
+      'Hello Crypto :)'
+    ),
+    _react2.default.createElement(
+      'h2',
+      null,
+      'Let\'s Buy some Crypto to HODL ;)'
+    ),
+    '.',
+    _react2.default.createElement(
+      _index2.default,
+      {
+        config: {
+          env: 'test',
+          accountId: 'AC_BAAA2222', // put your account number here
+          auth: {
+            type: 'secretKey',
+            secretKey: genSecretKey() // make an API key, put the secret here :)
           },
-          onReady: function onReady() {
-            return console.log('ready');
+          operation: {
+            type: 'debitcard',
+            destCurrency: 'ETH', //change type: can be ETH, DAI, BTC
+            destAmount: 0.01,
+            dest: "0xd277a99c0d08ded3bdb253024bff81e41496465c" // if payment goes through this account will receive the crypto balance
           },
-          onClose: function onClose(event) {
-            return console.log('close', event);
-          },
-          onComplete: function onComplete(event) {
-            return console.log('complete', event);
-          },
-          open: this.state.open },
-        _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              return _this2.setState({ open: true });
-            } },
-          'Buy ETH'
-        )
-      );
-    }
-  }]);
-
-  return App;
-}(_react2.default.Component);
-
-function genSecretKey() {
-  return Array.prototype.map.call(window.crypto.getRandomValues(new Uint8Array(25)), function (x) {
-    return ('00' + x.toString(16)).slice(-2);
-  }).join('');
+          style: {
+            primaryColor: '#0055ff'
+          }
+        },
+        onReady: function onReady() {
+          return console.log("ready");
+        },
+        onClose: function onClose(event) {
+          return console.log("close", event);
+        },
+        onComplete: function onComplete(event) {
+          return console.log("complete", event);
+        },
+        open: open
+      },
+      _react2.default.createElement(
+        'button',
+        { onClick: function onClick() {
+            return setOpen(true);
+          } },
+        'Buy ETH'
+      )
+    )
+  );
 }
-
-exports.default = App;
 
 },{"../index":5,"react":15}],4:[function(require,module,exports){
 'use strict';
