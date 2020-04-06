@@ -1,31 +1,33 @@
 <h3 align="center">
   <br />
-  <img src="https://user-images.githubusercontent.com/168240/55785987-3d1e3800-5a68-11e9-9c5f-5c06a0c40747.png" alt="logo" width="500" />
+  <img src="https://ipfs.io/ipfs/QmSSDhQdauJkKKCLnpLaptbuqzBRUyWtoStkkEx6ssjKqy" alt="wyre-widget" width="500" />
   <br />
   <br />
   <br />
 </h3>
 
-# react-wyre
+# Wyre Widget
+
+New Version using Hooks and no side effects.
 
 > [React](https://facebook.github.io/react/) component for the [Wyre](https://www.sendwyre.com/) widget.
 
-[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/archanova/react-wyre/master/LICENSE)
-[![Build Status](https://travis-ci.org/archanova/react-wyre.svg?branch=master)](https://travis-ci.org/archanova/react-wyre)
-[![dependencies Status](https://david-dm.org/archanova/react-wyre/status.svg)](https://david-dm.org/archanova/react-wyre)
-[![NPM version](https://badge.fury.io/js/react-wyre.svg)](http://badge.fury.io/js/react-wyre)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/x5engine/wyre-widget/master/LICENSE)
+[![Build Status](https://travis-ci.org/x5engine/wyre-widget.svg?branch=master)](https://travis-ci.org/x5engine/wyre-widget)
+[![dependencies Status](https://david-dm.org/x5engine/wyre-widget/status.svg)](https://david-dm.org/x5engine/wyre-widget)
+[![NPM version](https://badge.fury.io/js/wyre-widget.svg)](http://badge.fury.io/js/wyre-widget)
 
 ## Install
 
 ```bash
-npm install react-wyre
+npm install wyre-widget
 ```
 
 ## Getting started
 
 ```javascript
 import React from 'react'
-import Wyre from 'react-wyre'
+import Wyre from 'wyre-widget'
 
 class App extends React.Component {
   constructor (props) {
