@@ -1,192 +1,135 @@
 (function (global, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(['exports', 'react', 'prop-types'], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require('react'), require('prop-types'));
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports, global.react, global.propTypes);
-    global.index = mod.exports;
-  }
-})(this, function (exports, _react, _propTypes) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  var _react2 = _interopRequireDefault(_react);
-
-  var _propTypes2 = _interopRequireDefault(_propTypes);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  var Wyre = function (_React$Component) {
-    _inherits(Wyre, _React$Component);
-
-    function Wyre(props) {
-      _classCallCheck(this, Wyre);
-
-      var _this = _possibleConstructorReturn(this, (Wyre.__proto__ || Object.getPrototypeOf(Wyre)).call(this, props));
-
-      _this.scriptUrl = 'https://verify.sendwyre.com/js/widget-loader.js';
-      _this.scriptId = 'wyre-widget';
-      return _this;
-    }
-
-    _createClass(Wyre, [{
-      key: 'componentWillMount',
-      value: function componentWillMount() {
-        this.loadScript();
-      }
-    }, {
-      key: 'componentWillUnmount',
-      value: function componentWillUnmount() {
-        var script = document.getElementById(this.scriptId);
-        if (script) {
-          script.remove();
-        }
-      }
-    }, {
-      key: 'componentWillReceiveProps',
-      value: function componentWillReceiveProps(props) {
-        if (JSON.stringify(this.props.config) !== JSON.stringify(props.config)) {
-          this.verifyWyre();
-        }
-
-        if (props.open) {
-          this.widget.open();
-        } else {
-          this.widget.close();
-        }
-      }
-    }, {
-      key: 'render',
-      value: function render() {
-        return this.props.children;
-      }
-    }, {
-      key: 'verifyWyre',
-      value: function verifyWyre() {
-        var _this2 = this;
-
-        this.widget = new window.Wyre.Widget(this.props.config);
-
-        this.widget.on('ready', function () {
-          if (_this2.props.onReady) {
-            _this2.props.onReady();
-          }
-        });
-
-        this.widget.on('close', function (event) {
-          if (_this2.props.onClose) {
-            _this2.props.onClose(event);
-          }
-        });
-
-        this.widget.on('complete', function (event) {
-          if (_this2.props.onComplete) {
-            _this2.props.onComplete(event);
-          }
-        });
-      }
-    }, {
-      key: 'handleClick',
-      value: function handleClick(event) {
-        event.preventDefault();
-        this.widget.open();
-      }
-    }, {
-      key: 'open',
-      value: function open() {
-        this.widget.open();
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        this.widget.close();
-      }
-    }, {
-      key: 'loadScript',
-      value: function loadScript() {
-        var _this3 = this;
-
-        if (document.getElementById(this.scriptId)) return; // already exists
-
-        var script = document.createElement('script');
-        script.id = this.scriptId;
-        script.onload = function () {
-          return _this3.verifyWyre();
+    if (typeof define === "function" && define.amd) {
+        define(["exports", "react", "./useScript"], factory);
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require("react"), require("./useScript"));
+    } else {
+        var mod = {
+            exports: {}
         };
-        script.src = this.scriptUrl;
-        document.body.appendChild(script);
-      }
-    }]);
+        factory(mod.exports, global.react, global.useScript);
+        global.index = mod.exports;
+    }
+})(this, function (exports, _react, _useScript3) {
+    "use strict";
 
-    return Wyre;
-  }(_react2.default.Component);
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Wyre = Wyre;
 
-  Wyre.propTypes = {
-    config: _propTypes2.default.object,
-    onReady: _propTypes2.default.func,
-    onClose: _propTypes2.default.func,
-    onComplete: _propTypes2.default.func,
-    open: _propTypes2.default.bool
-  };
+    var React = _interopRequireWildcard(_react);
 
-  exports.default = Wyre;
+    function _interopRequireWildcard(obj) {
+        if (obj && obj.__esModule) {
+            return obj;
+        } else {
+            var newObj = {};
+
+            if (obj != null) {
+                for (var key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+                }
+            }
+
+            newObj.default = obj;
+            return newObj;
+        }
+    }
+
+    var _slicedToArray = function () {
+        function sliceIterator(arr, i) {
+            var _arr = [];
+            var _n = true;
+            var _d = false;
+            var _e = undefined;
+
+            try {
+                for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+                    _arr.push(_s.value);
+
+                    if (i && _arr.length === i) break;
+                }
+            } catch (err) {
+                _d = true;
+                _e = err;
+            } finally {
+                try {
+                    if (!_n && _i["return"]) _i["return"]();
+                } finally {
+                    if (_d) throw _e;
+                }
+            }
+
+            return _arr;
+        }
+
+        return function (arr, i) {
+            if (Array.isArray(arr)) {
+                return arr;
+            } else if (Symbol.iterator in Object(arr)) {
+                return sliceIterator(arr, i);
+            } else {
+                throw new TypeError("Invalid attempt to destructure non-iterable instance");
+            }
+        };
+    }();
+
+    function Wyre(_ref) {
+        var _this = this;
+
+        var open = _ref.open,
+            onReady = _ref.onReady,
+            onClose = _ref.onClose,
+            onComplete = _ref.onComplete,
+            config = _ref.config,
+            children = _ref.children;
+
+        var _useScript = (0, _useScript3.useScript)("https://verify.sendwyre.com/js/widget-loader.js"),
+            _useScript2 = _slicedToArray(_useScript, 2),
+            loaded = _useScript2[0],
+            error = _useScript2[1];
+
+        var _useState = useState(null),
+            _useState2 = _slicedToArray(_useState, 2),
+            widget = _useState2[0],
+            setWidget = _useState2[1];
+
+        React.useEffect(function () {
+            if (loaded) verifyWyre();
+        }, [loaded, error]);
+
+        var verifyWyre = function verifyWyre() {
+            var cwidget = new window.Wyre.Widget(config);
+
+            _this.widget.on('ready', function () {
+                if (onReady) {
+                    onReady();
+                }
+            });
+
+            _this.widget.on('close', function (event) {
+                if (onClose) {
+                    onClose(event);
+                }
+            });
+
+            _this.widget.on('complete', function (event) {
+                if (onComplete) {
+                    onComplete(event);
+                }
+            });
+            setWidget(cwidget);
+        };
+
+        return React.createElement(
+            "div",
+            { "class": "wyre-widget-react" },
+            loaded && !error ? React.createElement("div", null) : React.createElement(
+                "b",
+                null,
+                "Something went wrong!"
+            )
+        );
+    }
 });

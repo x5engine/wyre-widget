@@ -1,8 +1,7 @@
 import * as React from "react"
-import { Frame } from "framer"
 import { useScript } from "./useScript"
 
-export function Wyre({open, onReady, onClose}, onComplete, config, children}) {
+export function Wyre({open, onReady, onClose, onComplete, config, children}) {
     const [loaded, error] = useScript("https://verify.sendwyre.com/js/widget-loader.js")
     const [widget, setWidget] = useState(null)
 
